@@ -1,10 +1,9 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('users')
-export class User  {
+export class User {
   @PrimaryGeneratedColumn()
-  id: number
-
+  id: number;
 
   @Column({
     name: 'login',
@@ -17,7 +16,6 @@ export class User  {
     type: 'varchar',
   })
   email: string;
-
 
   @Column({
     name: 'password',
@@ -37,6 +35,11 @@ export class User  {
   })
   nameLast: string;
 
+  @Column({
+    name: 'user_role',
+    type: 'varchar',
+  })
+  role: string;
 
   isCookiesAccepted: boolean;
 }
