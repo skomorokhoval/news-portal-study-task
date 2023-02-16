@@ -13,8 +13,8 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(login: string, pass: string): Promise<any> {
-    const user = await this.userRepository.findOne({ where: { login } });
+  async validateUser(username: string, pass: string): Promise<any> {
+    const user = await this.userRepository.findOne({ where: { username }, relations: ['permissions'],  });
     if (user && (await compare(pass, user.password))) {
       return user;
     }
@@ -22,7 +22,7 @@ export class AuthService {
   }
 
   async login(user: any) {
-    const payload = { username: user.login, sub: user.userId };
+    const payload = { username: user.username, sub: user.userId, permissions: user.permissions };
     return {
       access_token: this.jwtService.sign(payload),
     };

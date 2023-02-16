@@ -6,10 +6,10 @@ export class User {
   id: number;
 
   @Column({
-    name: 'login',
+    name: 'username',
     type: 'varchar',
   })
-  login: string;
+  username: string;
 
   @Column({
     name: 'email',
@@ -40,6 +40,12 @@ export class User {
     type: 'varchar',
   })
   role: string;
+
+  @Column({
+    name: 'user_permission',
+    type: 'varchar',
+  })
+  userPermission: string;
 
   isCookiesAccepted: boolean;
 }

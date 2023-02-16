@@ -20,7 +20,7 @@ export class UserService {
   public async createUser(userData: any) {
     const salt = await genSalt(10);
     const hashedPassword = await hash(userData.password, salt);
-    const role = this.setUserRole(userData.login);
+    const role = this.setUserRole(userData.username);
     const value = this.userRepository.create({
       ...userData,
       password: hashedPassword,

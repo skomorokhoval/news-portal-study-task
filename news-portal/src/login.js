@@ -3,14 +3,14 @@ import LoggedInPage from "./loggedInPage";
 
 class LoginPage extends Component {
     state = {
-        login: "",
+        username: "",
         password: "",
         error: null,
         loggedIn: false,
     };
 
     handleUsernameChange = (event) => {
-        this.setState({ login: event.target.value });
+        this.setState({ username: event.target.value });
     };
 
     handlePasswordChange = (event) => {
@@ -22,20 +22,19 @@ class LoginPage extends Component {
         this.setState({ error: null });
 
         try {
-            const response = await fetch("http://localhost:3000/users/login", {
+            const response = await fetch("http://localhost:3000/auth/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    login: this.state.login,
+                    username: this.state.username,
                     password: this.state.password,
                 }),
             });
 
             if (!response.ok) {
-                console.log(response);
-                throw new Error("Login failed");
+                throw new Error(JSON.stringify(this.state));
             }
 
             const { access_token } = await response.json();
@@ -60,11 +59,11 @@ class LoginPage extends Component {
                     <h1 style={{ textAlign: "center" }}>Login</h1>
                     {this.state.error && <p className="error">{this.state.error}</p>}
                     <div>
-                        <label htmlFor="login">Login:</label>
+                        <label htmlFor="username">Login:</label>
                         <input
                             type="text"
-                            id="login"
-                            value={this.state.login}
+                            id="username"
+                            value={this.state.username}
                             onChange={this.handleUsernameChange}
                         />
                     </div>
