@@ -14,7 +14,7 @@ export class AuthService {
   ) {}
 
   async validateUser(username: string, pass: string): Promise<any> {
-    const user = await this.userRepository.findOne({ where: { username }, relations: ['permissions'],  });
+    const user = await this.userRepository.findOne({ where: { username }, select: ['username', 'password', 'role'] });
     if (user && (await compare(pass, user.password))) {
       return user;
     }
@@ -22,7 +22,7 @@ export class AuthService {
   }
 
   async login(user: any) {
-    const payload = { username: user.username, sub: user.userId, permissions: user.permissions };
+    const payload = { username: user.username, sub: user.userId, roles: user.role };
     return {
       access_token: this.jwtService.sign(payload),
     };

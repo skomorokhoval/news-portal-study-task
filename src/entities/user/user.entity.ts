@@ -36,16 +36,9 @@ export class User {
   nameLast: string;
 
   @Column({
-    name: 'user_role',
+    name: 'role',
     type: 'varchar',
   })
   role: string;
 
-  @Column({
-    name: 'user_permission',
-    type: 'varchar',
-  })
-  userPermission: string;
-
-  isCookiesAccepted: boolean;
 }

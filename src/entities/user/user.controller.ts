@@ -7,7 +7,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   //@UseInterceptors(FileInterceptor(''))
-  @Post('/')
+  @Post('/register')
   async createUser(@Req() req: Request, @Res() res: Response) {
     await this.userService.createUser(req.body);
     return res.send({ status: 'ok' });

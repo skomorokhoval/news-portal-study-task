@@ -16,7 +16,7 @@ export class UserService {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
-  //Register new user
+
   public async createUser(userData: any) {
     const salt = await genSalt(10);
     const hashedPassword = await hash(userData.password, salt);
