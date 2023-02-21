@@ -1,10 +1,21 @@
-import {useState} from "react";
+import React, { useState} from "react";
 import { useNavigate } from "react-router-dom";
+import jwt_decode from 'jwt-decode';
+
+
+function extractUserRole(accessToken) {
+    const decodedToken = jwt_decode(accessToken);
+    const role = decodedToken.roles;
+    return role;
+}
 
 function Login() {
-    const [username, setUsername] = useState('');
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const navigate = useNavigate()
+    const [errorMessage, setErrorMessage] = useState("");
+    const [accessToken, setAccessToken] = useState("");
+    const [role, setRole] = useState("");
+    const navigate = useNavigate();
 
 
     function handleSubmit(event) {
@@ -14,15 +25,27 @@ function Login() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, password }),
         })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                if (data.success) {
-                    navigate("/loggedIn");
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error("Login failed");
                 }
             })
-            .catch((error) => console.error(error));
+            .then((data) => {
+                if (data.access_token) {
+                    const role = extractUserRole(data.access_token);
+                    setAccessToken(data.access_token);
+                    setRole(role);
+                    console.log('ROLE ' +role)
+                    navigate("/loggedIn", { state: { username, role } });
+                }
+            })
+            .catch((error) => {
+                setErrorMessage(error.message);
+            });
     }
+
 
     function handleUsernameChange(event) {
         setUsername(event.target.value);
@@ -54,6 +77,7 @@ function Login() {
                         onChange={handlePasswordChange}
                     />
                 </div>
+                {errorMessage && <div>{errorMessage}</div>}
                 <button type="submit">Submit</button>
             </form>
         </div>

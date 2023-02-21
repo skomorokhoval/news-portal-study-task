@@ -8,6 +8,7 @@ import "./index.css";
 import Root from "./routes/root";
 import Login from "./routes/login";
 import LoggedIn from "./routes/loggedIn";
+import CreateArticle from "./routes/createArticle";
 
 const router = createBrowserRouter([
     {
@@ -15,12 +16,16 @@ const router = createBrowserRouter([
         element: <Root />,
     },
     {
-        path: "login",
+        path: "/login",
         element: <Login />,
     },
     {
-        path: "loggedIn",
+        path: "/loggedIn",
         element: <LoggedIn />,
+    },
+    {
+        path: "/createArticle",
+        element: <CreateArticle />,
     },
 ]);
 
