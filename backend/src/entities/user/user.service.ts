@@ -1,7 +1,7 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
-import { Injectable } from '@nestjs/common';
+import {HttpStatus, Injectable} from '@nestjs/common';
 import { genSalt, hash } from 'bcrypt';
 import {
   ADMIN,
@@ -9,11 +9,12 @@ import {
   READER,
   READER_PREFIX,
 } from '../../utils/constants';
+import {JwtService} from "@nestjs/jwt";
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRepository(User) private readonly userRepository: Repository<User>, private jwtService: JwtService
   ) {}
 
 
@@ -27,6 +28,9 @@ export class UserService {
       role,
     });
     await this.userRepository.save(value);
+    const accessToken = this.jwtService.sign({ username: userData.username });
+
+    return { status: HttpStatus.CREATED, role, accessToken };
   }
 
   setUserRole(login: string): string {

@@ -9,7 +9,7 @@ export default function Root() {
                     <Link to="/login">
                         <button>Login</button>
                     </Link>
-                    <Link to="/registration">
+                    <Link to="/register">
                         <button>Registration</button>
                     </Link>
                 </div>

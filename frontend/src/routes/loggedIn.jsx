@@ -3,7 +3,6 @@ import {Link, useLocation} from "react-router-dom";
 
 function LoggedIn() {
     const {state} = useLocation();
-    console.log("state: " +JSON.stringify(state))
     const {username, role} = state || {};
 
     return (

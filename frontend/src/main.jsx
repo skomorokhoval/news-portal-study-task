@@ -9,6 +9,7 @@ import Root from "./routes/root";
 import Login from "./routes/login";
 import LoggedIn from "./routes/loggedIn";
 import CreateArticle from "./routes/createArticle";
+import Registration from "./routes/register";
 
 const router = createBrowserRouter([
     {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
     {
         path: "/loggedIn",
         element: <LoggedIn />,
+    },
+    {
+        path: "/register",
+        element: <Registration />,
     },
     {
         path: "/createArticle",

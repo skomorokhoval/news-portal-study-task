@@ -1,7 +1,6 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import jwt_decode from 'jwt-decode';
-
+import jwt_decode from "jwt-decode";
 
 function extractUserRole(accessToken) {
     const decodedToken = jwt_decode(accessToken);
@@ -13,10 +12,7 @@ function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
-    const [accessToken, setAccessToken] = useState("");
-    const [role, setRole] = useState("");
     const navigate = useNavigate();
-
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -24,6 +20,7 @@ function Login() {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, password }),
+            credentials: "include", // include cookies in the request
         })
             .then((response) => {
                 if (response.ok) {
@@ -35,9 +32,9 @@ function Login() {
             .then((data) => {
                 if (data.access_token) {
                     const role = extractUserRole(data.access_token);
-                    setAccessToken(data.access_token);
-                    setRole(role);
-                    console.log('ROLE ' +role)
+                    console.log(`Authentication=${data.cookie}; Path=/; Max-Age=${3600}; HttpOnly;`)
+                    document.cookie = `Authentication=${data.access_token}; Path=/; Max-Age=${3600}; HttpOnly;`; // set the cookie
+                    console.log(document.cookie)
                     navigate("/loggedIn", { state: { username, role } });
                 }
             })
@@ -45,7 +42,6 @@ function Login() {
                 setErrorMessage(error.message);
             });
     }
-
 
     function handleUsernameChange(event) {
         setUsername(event.target.value);

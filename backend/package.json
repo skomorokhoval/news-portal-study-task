@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
-    "@nestjs/config": "^2.2.0",
+    "@nestjs/config": "^2.3.1",
     "@nestjs/core": "^9.0.0",
     "@nestjs/jwt": "^10.0.2",
     "@nestjs/mapped-types": "*",
@@ -30,6 +30,7 @@
     "@nestjs/typeorm": "^9.0.1",
     "@types/passport-jwt": "^3.0.8",
     "bcrypt": "^5.1.0",
+    "cookie-parser": "^1.4.6",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
     "nest-next": "^10.1.0",
